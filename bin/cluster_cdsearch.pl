@@ -240,7 +240,8 @@ my $missing_count     = 0;
 if ($composite_output) {
 	print STDERR "Collating output ...";
 	opendir( DIR, $OUTPUT_DIR ) or die "Can't open $OUTPUT_DIR\n";
-	open( OUTFILE, "|pbzip2 -c -9 >$opt{o}" ) || die "Can't open $opt{o}\n";
+	#open( OUTFILE, "| bzip2 -c -9 >$opt{o}" ) || die "Can't open $opt{o}\n";
+	open( OUTFILE, "| gzip -c -9 >$opt{o}" ) || die "Can't open $opt{o}\n";
 	while ( defined( $filename = readdir(DIR) ) ) {
 
 		my $infile = $OUTPUT_DIR . '/' . $filename;
@@ -684,7 +685,7 @@ sub open_file {
 sub check_exists {
     my $command = shift;
 
-    if ( system("which $command") == 0 ) {
+    if ( system("which $command > /dev/null") == 0 ) {
         return 1;
     }
     else {
